@@ -9,18 +9,27 @@ Este projeto consiste na implementação do clássico jogo T-Rex Runner, popular
 👨‍💻 Autores
 
 Luis Eduardo Bérard de Paiva Moura Rodrigues
+
 Estudante de Ciências da Computação — CESAR School
+
 Disciplina: Programação Imperativa e Funcional
+
 Período: 2025.1
 
 Pablo José Pellegrino Cintra
+
 Estudante de Ciências da Computação — CESAR School
+
 Disciplina: Programação Imperativa e Funcional
+
 Período: 2025.1
 
 João Victor Guimarães Cacalcanti Uchoa
+
 Estudante de Ciências da Computação — CESAR School
+
 Disciplina: Programação Imperativa e Funcional
+
 Período: 2025.1
 
 
