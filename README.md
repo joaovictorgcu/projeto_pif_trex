@@ -1,1 +1,1 @@
-Projeto do jogo t-rex runner para cadeira de programção imperativa e funcional
+Projeto do jogo t-rex runner para cadeira de programação imperativa e funcional
