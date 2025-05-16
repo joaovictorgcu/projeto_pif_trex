@@ -10,8 +10,7 @@ struct dinossauro {
     float velocidadeY;
     int pulando;
 };
-
-typedef struct dinossauro Dino;
+typedef struct dinossauro Dinossauro;
 
 struct cacto {
     float x, y;
@@ -19,17 +18,15 @@ struct cacto {
     int passou;
     struct cacto *proximo;
 };
-
 typedef struct cacto Cacto;
 
-struct listaCacto {
+struct listaCactos {
     int tamanho;
     Cacto *inicio;
 };
+typedef struct listaCactos ListaCactos;
 
-typedef struct listaCacto ListaCacto;
-
-void inserir_cacto_final(ListaCacto *lista, float x, float y, float largura, float altura) {
+void inserir_cacto_final(ListaCactos *lista, float x, float y, float largura, float altura) {
     Cacto *novo = (Cacto*)malloc(sizeof(Cacto));
     if (novo == NULL) {
         printf("Erro ao alocar memória para novo cacto.\n");
@@ -54,7 +51,7 @@ void inserir_cacto_final(ListaCacto *lista, float x, float y, float largura, flo
     lista->tamanho++;
 }
 
-void atualizar_cactos(ListaCacto *lista, float velocidade) {
+void atualizar_cactos(ListaCactos *lista, float velocidade) {
     Cacto *atual = lista->inicio;
     while (atual != NULL) {
         atual->x -= velocidade;
@@ -62,21 +59,21 @@ void atualizar_cactos(ListaCacto *lista, float velocidade) {
     }
 }
 
-void desenhar_cactos(ListaCacto *lista) {
+void desenhar_cactos(ListaCactos *lista) {
     Cacto *atual = lista->inicio;
     while (atual != NULL) {
-        DrawRectangle(atual->x, atual->y, atual->largura, atual->altura, DARKGREEN);
+        DrawRectangleRounded((Rectangle){atual->x, atual->y, atual->largura, atual->altura}, 0.2, 4, DARKGREEN);
         atual = atual->proximo;
     }
 }
 
-int verificar_colisao(Dino *dino, ListaCacto *lista) {
+int verificar_colisao(Dinossauro *dino, ListaCactos *lista) {
     Cacto *atual = lista->inicio;
-    Rectangle rDino = { dino->x, dino->y, dino->largura, dino->altura };
+    Rectangle retDino = { dino->x, dino->y, dino->largura, dino->altura };
 
     while (atual != NULL) {
-        Rectangle rCacto = { atual->x, atual->y, atual->largura, atual->altura };
-        if (CheckCollisionRecs(rDino, rCacto)) {
+        Rectangle retCacto = { atual->x, atual->y, atual->largura, atual->altura };
+        if (CheckCollisionRecs(retDino, retCacto)) {
             return 1;
         }
         atual = atual->proximo;
@@ -84,28 +81,30 @@ int verificar_colisao(Dino *dino, ListaCacto *lista) {
     return 0;
 }
 
-int main(void){
+int main(void) {
     int larguraTela = 800;
     int alturaTela = 450;
-
     int pontuacao = 0;
 
     InitWindow(larguraTela, alturaTela, "Jogo Dino");
+    InitAudioDevice();
+    Sound somPulo = LoadSound("pulo.wav");
+    Sound somColisao = LoadSound("colisao.wav");
     SetTargetFPS(60);
     srand(time(NULL)); 
 
-    Dino *dinossauro = (Dino*)malloc(sizeof(Dino));
-    dinossauro->x = 50;
-    dinossauro->y = alturaTela - 60;
-    dinossauro->largura = 40;
-    dinossauro->altura = 40;
-    dinossauro->velocidadeY = 0;
-    dinossauro->pulando = 0;
+    Dinossauro *dino = (Dinossauro*)malloc(sizeof(Dinossauro));
+    dino->x = 50;
+    dino->y = alturaTela - 60;
+    dino->largura = 40;
+    dino->altura = 40;
+    dino->velocidadeY = 0;
+    dino->pulando = 0;
 
     float gravidade = 0.6f;
     float forcaPulo = -12.0f;
 
-    ListaCacto cactos;
+    ListaCactos cactos;
     cactos.inicio = NULL;
     cactos.tamanho = 0;
 
@@ -115,89 +114,91 @@ int main(void){
     float distanciaMinima = 250.0f;
 
     while (!WindowShouldClose()) {
-
         BeginDrawing();
-        ClearBackground(RAYWHITE);
+
+        DrawRectangleGradientV(0, 0, larguraTela, alturaTela, SKYBLUE, RAYWHITE);
+        DrawRectangle(0, alturaTela - 20, larguraTela, 20, DARKBROWN);
+
+        for (int i = 0; i < larguraTela; i += 40) {
+            DrawRectangle(i, alturaTela - 25, 20, 2, GRAY);
+        }
 
         char textoPontuacao[20];
         sprintf(textoPontuacao, "Pontos: %d", pontuacao);
+        DrawText(textoPontuacao, 11, 11, 20, LIGHTGRAY);
         DrawText(textoPontuacao, 10, 10, 20, DARKGRAY);
 
         if (jogoAtivo) {
-            // Pulo
-            if (IsKeyPressed(KEY_SPACE) && !dinossauro->pulando) {
-                dinossauro->velocidadeY = forcaPulo;
-                dinossauro->pulando = 1;
+            if (IsKeyPressed(KEY_SPACE) && !dino->pulando) {
+                dino->velocidadeY = forcaPulo;
+                dino->pulando = 1;
+                PlaySound(somPulo);
             }
 
-            // Gravidade
-            dinossauro->velocidadeY += gravidade;
-            dinossauro->y += dinossauro->velocidadeY;
+            dino->velocidadeY += gravidade;
+            dino->y += dino->velocidadeY;
 
-            if (dinossauro->y >= alturaTela - dinossauro->altura - 20) {
-                dinossauro->y = alturaTela - dinossauro->altura - 20;
-                dinossauro->velocidadeY = 0;
-                dinossauro->pulando = 0;
+            if (dino->y >= alturaTela - dino->altura - 20) {
+                dino->y = alturaTela - dino->altura - 20;
+                dino->velocidadeY = 0;
+                dino->pulando = 0;
             }
 
-            // Atualizar cactos
             atualizar_cactos(&cactos, 5.0f);
             distanciaUltimoCacto += 5.0f;
 
-            // Gerar cacto com chance após distância mínima
             if (distanciaUltimoCacto >= distanciaMinima && GetRandomValue(0, 99) < 4) {
-                inserir_cacto_final(&cactos, larguraTela, alturaTela - 60, 20, 40);
+                float alturaCacto = GetRandomValue(30, 60);
+                float larguraCacto = GetRandomValue(15, 25);
+                inserir_cacto_final(&cactos, larguraTela, alturaTela - 20 - alturaCacto, larguraCacto, alturaCacto);
                 distanciaUltimoCacto = 0.0f;
             }
 
-            // Atualizar pontuação
             Cacto *atual = cactos.inicio;
             while (atual != NULL) {
-                if (!atual->passou && atual->x + atual->largura < dinossauro->x) {
+                if (!atual->passou && atual->x + atual->largura < dino->x) {
                     pontuacao++;
                     atual->passou = 1;
                 }
                 atual = atual->proximo;
             }
 
-            // Colisão
-            if (verificar_colisao(dinossauro, &cactos)) {
+            if (verificar_colisao(dino, &cactos)) {
                 jogoAtivo = 0;
-                podeReiniciar = 0; // Resetar flag
+                podeReiniciar = 0;
+                PlaySound(somColisao);
             }
         }
 
-        // Dino
-        DrawRectangle(dinossauro->x, dinossauro->y, dinossauro->largura, dinossauro->altura, DARKGRAY);
-        DrawRectangle(dinossauro->x + dinossauro->largura - 15, dinossauro->y - 10, 25, 25, DARKGRAY);
-        DrawCircle(dinossauro->x + dinossauro->largura + 5, dinossauro->y - 5, 4, RAYWHITE);
-        DrawRectangle(dinossauro->x + 5, dinossauro->y + dinossauro->altura, 10, 5, DARKGRAY);
-        DrawRectangle(dinossauro->x + dinossauro->largura - 15, dinossauro->y + dinossauro->altura, 10, 5, DARKGRAY);
+        DrawRectangleRounded((Rectangle){dino->x, dino->y, dino->largura, dino->altura}, 0.3, 4, DARKGRAY);
+        DrawRectangleRounded((Rectangle){dino->x + dino->largura - 18, dino->y - 15, 30, 30}, 0.3, 4, DARKGRAY);
+        DrawCircle(dino->x + dino->largura + 6, dino->y - 5, 4, WHITE);
+        DrawCircle(dino->x + dino->largura + 6, dino->y - 5, 2, BLACK);
+        DrawRectangle(dino->x + 5, dino->y + dino->altura, 10, 5, DARKGRAY);
+        DrawRectangle(dino->x + dino->largura - 15, dino->y + dino->altura, 10, 5, DARKGRAY);
 
-        // Cactos
         desenhar_cactos(&cactos);
 
         if (!jogoAtivo) {
-            DrawText("GAME OVER!", larguraTela / 2 - 100, alturaTela / 2 - 40, 40, RED);
+            DrawText("GAME OVER!", (larguraTela - MeasureText("GAME OVER!", 40)) / 2 + 2, alturaTela / 2 - 40 + 2, 40, GRAY);
+            DrawText("GAME OVER!", (larguraTela - MeasureText("GAME OVER!", 40)) / 2, alturaTela / 2 - 40, 40, RED);
 
             char textoFinal[30];
-            sprintf(textoFinal, "Pontuacao final: %d", pontuacao);
-            DrawText(textoFinal, larguraTela / 2 - 100, alturaTela / 2 + 0, 20, DARKGRAY);
+            sprintf(textoFinal, "Pontuação final: %d", pontuacao);
+            int larguraTextoFinal = MeasureText(textoFinal, 20);
+            DrawText(textoFinal, (larguraTela - larguraTextoFinal) / 2, alturaTela / 2 + 0, 20, DARKGRAY);
 
-            DrawText("Pressione ESPAÇO para reiniciar", larguraTela / 2 - 160, alturaTela / 2 + 30, 20, GRAY);
+            int larguraTextoReinicio = MeasureText("Pressione ESPACO para reiniciar", 20);
+            DrawText("Pressione ESPACO para reiniciar", (larguraTela - larguraTextoReinicio) / 2, alturaTela / 2 + 30, 20, GRAY);
 
-            if (IsKeyReleased(KEY_SPACE)) {
-                podeReiniciar = 1;
-            }
+            if (IsKeyReleased(KEY_SPACE)) podeReiniciar = 1;
 
             if (podeReiniciar && IsKeyPressed(KEY_SPACE)) {
-                // Reinicializa o dinossauro
-                dinossauro->x = 50;
-                dinossauro->y = alturaTela - 60;
-                dinossauro->velocidadeY = 0;
-                dinossauro->pulando = 0;
+                dino->x = 50;
+                dino->y = alturaTela - 60;
+                dino->velocidadeY = 0;
+                dino->pulando = 0;
 
-                // Limpa os cactos da lista
                 Cacto *temp;
                 while (cactos.inicio != NULL) {
                     temp = cactos.inicio;
@@ -206,11 +207,9 @@ int main(void){
                 }
                 cactos.tamanho = 0;
 
-                // Reseta variáveis do jogo
                 jogoAtivo = 1;
                 distanciaUltimoCacto = 300.0f;
                 podeReiniciar = 0;
-
                 pontuacao = 0;
             }
         }
@@ -218,7 +217,6 @@ int main(void){
         EndDrawing();
     }
 
-    // Limpeza
     Cacto *temp;
     while (cactos.inicio != NULL) {
         temp = cactos.inicio;
@@ -226,8 +224,10 @@ int main(void){
         free(temp);
     }
 
-    free(dinossauro);
+    UnloadSound(somPulo);
+    UnloadSound(somColisao);
+    CloseAudioDevice();
+    free(dino);
     CloseWindow();
-
     return 0;
 }
