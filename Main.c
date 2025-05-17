@@ -299,7 +299,7 @@ int main(void) {
     int pontuacao = 0;
     float tempoGlobal = 0.0f;
 
-    InitWindow(larguraTela, alturaTela, "Jogo Dino - Paraíso Visual");
+    InitWindow(larguraTela, alturaTela, "Jogo Dino");
     InitAudioDevice();
     Sound somPulo = LoadSound("pulo.wav");
     SetSoundVolume(somPulo, 0.6f);
