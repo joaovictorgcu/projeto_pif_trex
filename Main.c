@@ -81,6 +81,16 @@ int verificar_colisao(Dinossauro *dino, ListaCactos *lista) {
     return 0;
 }
 
+void desenhar_dinossauro(Dinossauro *dino) {
+    DrawRectangle(dino->x, dino->y, dino->largura, dino->altura, DARKGRAY);
+    DrawRectangle(dino->x + dino->largura - 10, dino->y - 15, 20, 20, DARKGRAY);
+    DrawRectangle(dino->x + dino->largura + 5, dino->y - 10, 3, 3, BLACK);
+    DrawRectangle(dino->x + 5, dino->y + 10, 5, 3, DARKGRAY);
+    DrawRectangle(dino->x + 2, dino->y + dino->altura, 8, 5, DARKGRAY);
+    DrawRectangle(dino->x + dino->largura - 10, dino->y + dino->altura, 8, 5, DARKGRAY);
+}
+
+
 int main(void) {
     int larguraTela = 800;
     int alturaTela = 450;
@@ -171,13 +181,7 @@ int main(void) {
             }
         }
 
-        DrawRectangleRounded((Rectangle){dino->x, dino->y, dino->largura, dino->altura}, 0.3, 4, DARKGRAY);
-        DrawRectangleRounded((Rectangle){dino->x + dino->largura - 18, dino->y - 15, 30, 30}, 0.3, 4, DARKGRAY);
-        DrawCircle(dino->x + dino->largura + 6, dino->y - 5, 4, WHITE);
-        DrawCircle(dino->x + dino->largura + 6, dino->y - 5, 2, BLACK);
-        DrawRectangle(dino->x + 5, dino->y + dino->altura, 10, 5, DARKGRAY);
-        DrawRectangle(dino->x + dino->largura - 15, dino->y + dino->altura, 10, 5, DARKGRAY);
-
+        desenhar_dinossauro(dino);
         desenhar_cactos(&cactos);
 
         if (!jogoAtivo) {
