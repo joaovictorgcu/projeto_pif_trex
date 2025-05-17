@@ -92,6 +92,8 @@ void desenhar_dinossauro(Dinossauro *dino) {
 
 
 int main(void) {
+    float tempoJogo = 0.0f;
+    int modoNoite = 0;
     int larguraTela = 800;
     int alturaTela = 450;
     int pontuacao = 0;
@@ -127,18 +129,40 @@ int main(void) {
     while (!WindowShouldClose()) {
         BeginDrawing();
 
-        DrawRectangleGradientV(0, 0, larguraTela, alturaTela, SKYBLUE, RAYWHITE);
-        DrawRectangle(0, alturaTela - 20, larguraTela, 20, DARKBROWN);
+        tempoJogo += GetFrameTime();
+        if (tempoJogo >= 20.0f) {
+            modoNoite = !modoNoite; 
+            tempoJogo = 0.0f;
+        }
 
-        DrawCircle(larguraTela - 80, 80, 40, YELLOW);
+        if (modoNoite) {
+            ClearBackground((Color){10, 10, 40, 255}); 
 
-        DrawCircle(150, 100, 20, WHITE);
-        DrawCircle(170, 90, 25, WHITE);
-        DrawCircle(190, 100, 20, WHITE);
+            DrawCircle(larguraTela - 80, 80, 30, LIGHTGRAY);
 
-        DrawCircle(400, 70, 18, WHITE);
-        DrawCircle(420, 60, 22, WHITE);
-        DrawCircle(440, 70, 18, WHITE);
+            DrawCircle(100, 50, 2, RAYWHITE);
+            DrawCircle(200, 70, 2, RAYWHITE);
+            DrawCircle(250, 40, 2, RAYWHITE);
+            DrawCircle(400, 90, 2, RAYWHITE);
+            DrawCircle(600, 60, 2, RAYWHITE);
+            DrawCircle(700, 30, 2, RAYWHITE);
+
+            DrawRectangle(0, alturaTela - 20, larguraTela, 20, (Color){50, 40, 20, 255});
+        } else {
+            DrawRectangleGradientV(0, 0, larguraTela, alturaTela, SKYBLUE, RAYWHITE);
+            DrawCircle(larguraTela - 80, 80, 40, YELLOW);
+            DrawRectangle(0, alturaTela - 20, larguraTela, 20, DARKBROWN);
+        }
+
+        if (!modoNoite) {
+            DrawCircle(150, 100, 20, WHITE);
+            DrawCircle(170, 90, 25, WHITE);
+            DrawCircle(190, 100, 20, WHITE);
+
+            DrawCircle(400, 70, 18, WHITE);
+            DrawCircle(420, 60, 22, WHITE);
+            DrawCircle(440, 70, 18, WHITE);
+        }
 
         for (int i = 0; i < larguraTela; i += 40) {
             DrawRectangle(i, alturaTela - 25, 20, 2, GRAY);
@@ -226,6 +250,8 @@ int main(void) {
                 distanciaUltimoCacto = 300.0f;
                 podeReiniciar = 0;
                 pontuacao = 0;
+                modoNoite = 0;
+                tempoJogo = 0.0f;
             }
         }
 
