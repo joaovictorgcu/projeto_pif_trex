@@ -130,6 +130,16 @@ int main(void) {
         DrawRectangleGradientV(0, 0, larguraTela, alturaTela, SKYBLUE, RAYWHITE);
         DrawRectangle(0, alturaTela - 20, larguraTela, 20, DARKBROWN);
 
+        DrawCircle(larguraTela - 80, 80, 40, YELLOW);
+
+        DrawCircle(150, 100, 20, WHITE);
+        DrawCircle(170, 90, 25, WHITE);
+        DrawCircle(190, 100, 20, WHITE);
+
+        DrawCircle(400, 70, 18, WHITE);
+        DrawCircle(420, 60, 22, WHITE);
+        DrawCircle(440, 70, 18, WHITE);
+
         for (int i = 0; i < larguraTela; i += 40) {
             DrawRectangle(i, alturaTela - 25, 20, 2, GRAY);
         }
