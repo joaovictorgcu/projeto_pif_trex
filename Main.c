@@ -505,7 +505,7 @@ int main(void) {
 
     InitWindow(larguraTela, alturaTela, "Jogo Dino");
     InitAudioDevice();
-    Sound somPulo = LoadSound("pulo.wav");
+    Sound somPulo = LoadSound("Sprites/pulo.wav");
     SetSoundVolume(somPulo, 0.6f);
     Sound somColisao = LoadSound("colisao.wav");
     SetTargetFPS(60);
