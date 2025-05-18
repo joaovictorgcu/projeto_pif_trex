@@ -130,7 +130,7 @@ void inserir_score(ListaScores *lista, int pontos) {
 }
 
 void salvar_scores(ListaScores *lista) {
-    FILE *arquivo = fopen("Arquivos/scores.txt", "w");
+    FILE *arquivo = fopen("Scores/scores.txt", "w");
     if (arquivo == NULL) {
         return;
     }
@@ -145,7 +145,7 @@ void salvar_scores(ListaScores *lista) {
 }
 
 void carregar_scores(ListaScores *lista) {
-    FILE *arquivo = fopen("Arquivos/scores.txt", "r");
+    FILE *arquivo = fopen("Scores/scores.txt", "r");
     if (arquivo == NULL) {
         return;
     }
@@ -546,9 +546,9 @@ int main(void) {
     dino->velocidadeY = 0;
     dino->pulando = 0;
     
-    dino->sprite = LoadTexture("Arquivos/dino.png");
+    dino->sprite = LoadTexture("Sprites/dino.png");
     
-    Texture2D spriteCacto = LoadTexture("Arquivos/cacto.png");
+    Texture2D spriteCacto = LoadTexture("Sprites/cacto.png");
 
     float gravidade = 0.6f;
     float forcaPulo = -12.0f;
