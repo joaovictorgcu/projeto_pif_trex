@@ -647,13 +647,13 @@ int main(void) {
             case MENU:
                 if (IsKeyPressed(KEY_DOWN)) {
                     opcoesMenu[opcaoSelecionada].selecionada = 0;
-                    opcaoSelecionada = (opcaoSelecionada + 1) % 3;
+                    opcaoSelecionada = (opcaoSelecionada + 1) % 4;
                     opcoesMenu[opcaoSelecionada].selecionada = 1;
                 }
                 
                 if (IsKeyPressed(KEY_UP)) {
                     opcoesMenu[opcaoSelecionada].selecionada = 0;
-                    opcaoSelecionada = (opcaoSelecionada - 1 + 3) % 3;
+                    opcaoSelecionada = (opcaoSelecionada - 1 + 4) % 4;
                     opcoesMenu[opcaoSelecionada].selecionada = 1;
                 }
                 
