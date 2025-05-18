@@ -17,6 +17,13 @@ typedef enum {
     SCORES
 } EstadoJogo;
 
+typedef enum {
+    FACIL,
+    MEDIO,
+    DIFICIL
+} Dificuldade;
+
+
 struct score {
     int pontos;
     struct score *proximo;
@@ -495,40 +502,51 @@ int main(void) {
     EstadoJogo estadoAtual = MENU;
     int jogoRodando = 1;
 
+
     InitWindow(larguraTela, alturaTela, "Jogo Dino");
     InitAudioDevice();
-    Sound somPulo = LoadSound("pulo.wav");
+    Sound somPulo = LoadSound("Sprites/pulo.wav");
     SetSoundVolume(somPulo, 0.6f);
     Sound somColisao = LoadSound("colisao.wav");
     SetTargetFPS(60);
     srand(time(NULL));
-
+    Dificuldade dificuldadeAtual = FACIL;
     ListaScores scores;
     scores.inicio = NULL;
     scores.tamanho = 0;
     carregar_scores(&scores);
 
-    OpcaoMenu opcoesMenu[3];
+    OpcaoMenu opcoesMenu[4];
     int opcaoSelecionada = 0;
-    
+
+
+    // Jogar
     strcpy(opcoesMenu[0].texto, "Jogar");
-    opcoesMenu[0].area = (Rectangle){larguraTela/2 - 100, alturaTela/2 - 60, 200, 40};
+    opcoesMenu[0].area = (Rectangle){larguraTela/2 - 100, alturaTela/2 - 90, 200, 40};
     opcoesMenu[0].corNormal = (Color){100, 100, 100, 255};
     opcoesMenu[0].corSelecionada = (Color){255, 255, 0, 255};
     opcoesMenu[0].selecionada = 1;
-    
-    strcpy(opcoesMenu[1].texto, "Scores");
-    opcoesMenu[1].area = (Rectangle){larguraTela/2 - 100, alturaTela/2, 200, 40};
+
+// Dificuldade
+    strcpy(opcoesMenu[1].texto, "Dificuldade: Facil");  // inicia com "Fácil"
+    opcoesMenu[1].area = (Rectangle){larguraTela/2 - 100, alturaTela/2 - 30, 200, 40};
     opcoesMenu[1].corNormal = (Color){100, 100, 100, 255};
     opcoesMenu[1].corSelecionada = (Color){255, 255, 0, 255};
     opcoesMenu[1].selecionada = 0;
-    
-    strcpy(opcoesMenu[2].texto, "Sair");
-    opcoesMenu[2].area = (Rectangle){larguraTela/2 - 100, alturaTela/2 + 60, 200, 40};
+
+// Scores
+    strcpy(opcoesMenu[2].texto, "Scores");
+    opcoesMenu[2].area = (Rectangle){larguraTela/2 - 100, alturaTela/2 + 30, 200, 40};
     opcoesMenu[2].corNormal = (Color){100, 100, 100, 255};
     opcoesMenu[2].corSelecionada = (Color){255, 255, 0, 255};
     opcoesMenu[2].selecionada = 0;
 
+// Sair
+    strcpy(opcoesMenu[3].texto, "Sair");
+    opcoesMenu[3].area = (Rectangle){larguraTela/2 - 100, alturaTela/2 + 90, 200, 40};
+    opcoesMenu[3].corNormal = (Color){100, 100, 100, 255};
+    opcoesMenu[3].corSelecionada = (Color){255, 255, 0, 255};
+    opcoesMenu[3].selecionada = 0;
     Estrela estrelas[MAX_ESTRELAS];
     inicializar_estrelas(estrelas, larguraTela, alturaTela);
 
@@ -629,13 +647,13 @@ int main(void) {
             case MENU:
                 if (IsKeyPressed(KEY_DOWN)) {
                     opcoesMenu[opcaoSelecionada].selecionada = 0;
-                    opcaoSelecionada = (opcaoSelecionada + 1) % 3;
+                    opcaoSelecionada = (opcaoSelecionada + 1) % 4;
                     opcoesMenu[opcaoSelecionada].selecionada = 1;
                 }
                 
                 if (IsKeyPressed(KEY_UP)) {
                     opcoesMenu[opcaoSelecionada].selecionada = 0;
-                    opcaoSelecionada = (opcaoSelecionada - 1 + 3) % 3;
+                    opcaoSelecionada = (opcaoSelecionada - 1 + 4) % 4;
                     opcoesMenu[opcaoSelecionada].selecionada = 1;
                 }
                 
@@ -662,14 +680,29 @@ int main(void) {
                         cactos.tamanho = 0;
                         
                         distanciaUltimoCacto = 300.0f;
-                    } else if (opcaoSelecionada == 1) {
+                    } 
+                    else if(opcaoSelecionada == 1) {
+                        dificuldadeAtual = (dificuldadeAtual + 1) % 3;
+                        switch (dificuldadeAtual) {
+                            case FACIL:
+                                strcpy(opcoesMenu[1].texto, "Dificuldade: Facil");
+                                break;
+                            case MEDIO:
+                                strcpy(opcoesMenu[1].texto, "Dificuldade: Medio");
+                                break;
+                            case DIFICIL:
+                                strcpy(opcoesMenu[1].texto, "Dificuldade: Dificil");
+                                break;
+                        }
+                    }
+                    else if (opcaoSelecionada == 2) {
                         estadoAtual = SCORES;
-                    } else if (opcaoSelecionada == 2) {
+                    } else if (opcaoSelecionada == 3) {
                         jogoRodando = 0;
                     }
                 }
                 
-                desenhar_menu(opcoesMenu, 3, modoNoite);
+                desenhar_menu(opcoesMenu, 4, modoNoite);
                 break;
                 
             case JOGANDO:
@@ -697,9 +730,20 @@ int main(void) {
                         dino->velocidadeY = 0;
                         dino->pulando = 0;
                     }
-
-                    atualizar_cactos(&cactos, 5.0f);
-                    distanciaUltimoCacto += 5.0f;
+                    float velocidadeObstaculo = 5.0f;
+                    switch (dificuldadeAtual) {
+                        case FACIL:
+                            velocidadeObstaculo = 5.0f;
+                            break;
+                        case MEDIO:
+                            velocidadeObstaculo = 7.0f;
+                            break;
+                        case DIFICIL:
+                            velocidadeObstaculo = 9.0f;
+                            break;
+                    }
+                    atualizar_cactos(&cactos, velocidadeObstaculo);
+                    distanciaUltimoCacto += velocidadeObstaculo;
 
                     if (distanciaUltimoCacto >= distanciaMinima && GetRandomValue(0, 99) < 4) {
                         float alturaCacto = GetRandomValue(30, 60);
