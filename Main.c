@@ -502,6 +502,8 @@ int main(void) {
     EstadoJogo estadoAtual = MENU;
     int jogoRodando = 1;
 
+    Sound somGameOver = LoadSound("GameOver.mp3");
+    SetSoundVolume(somGameOver, 0.6f);
 
     InitWindow(larguraTela, alturaTela, "Jogo Dino");
     InitAudioDevice();
@@ -581,17 +583,14 @@ int main(void) {
     float distanciaMinima = 250.0f;
 
     while (jogoRodando) {
-        if (IsKeyPressed(KEY_Q)) jogoRodando = 0;
+        if (IsKeyPressed(KEY_Q)) 
+        jogoRodando = 0;
         
         BeginDrawing();
 
         tempoGlobal += GetFrameTime();
         tempoJogo += GetFrameTime();
         
-        if (pontuacao - ultimaPontuacaoMudanca >= 20) {
-            modoNoite = !modoNoite;
-            ultimaPontuacaoMudanca = pontuacao;
-        }
 
         if (modoNoite) {
             Color corTopo = (Color){5, 5, 15, 255};
@@ -758,10 +757,6 @@ int main(void) {
                             pontuacao++;
                             atual->passou = 1;
                             
-                            if (pontuacao % 20 == 0) {
-                                modoNoite = !modoNoite;
-                                ultimaPontuacaoMudanca = pontuacao;
-                            }
                         }
                         atual = atual->proximo;
                     }
@@ -771,6 +766,8 @@ int main(void) {
                         podeReiniciar = 0;
                         PlaySound(somColisao);
                         estadoAtual = GAME_OVER;
+                        PlaySound(somGameOver);
+
                         
                         inserir_score(&scores, pontuacao);
                         salvar_scores(&scores);
@@ -853,6 +850,7 @@ int main(void) {
 
     UnloadSound(somPulo);
     UnloadSound(somColisao);
+    UnloadSound(somGameOver);
     CloseAudioDevice();
     free(dino);
     CloseWindow();
