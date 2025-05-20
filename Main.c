@@ -502,14 +502,14 @@ int main(void) {
     EstadoJogo estadoAtual = MENU;
     int jogoRodando = 1;
 
-    Sound somGameOver = LoadSound("GameOver.mp3");
+    Sound somGameOver = LoadSound("Sprites/GameOver.mp3");
     SetSoundVolume(somGameOver, 0.6f);
 
     InitWindow(larguraTela, alturaTela, "Jogo Dino");
     InitAudioDevice();
     Sound somPulo = LoadSound("Sprites/pulo.wav");
     SetSoundVolume(somPulo, 0.6f);
-    Sound somColisao = LoadSound("colisao.wav");
+    Sound somColisao = LoadSound("Sprites/colisao.mp3");
     SetTargetFPS(60);
     srand(time(NULL));
     Dificuldade dificuldadeAtual = FACIL;
@@ -561,8 +561,8 @@ int main(void) {
     Dinossauro *dino = (Dinossauro*)malloc(sizeof(Dinossauro));
     dino->x = 50;
     dino->y = alturaTela - 60;
-    dino->largura = 60;  // Aumentado de 40 para 60
-    dino->altura = 60;   // Aumentado de 40 para 60
+    dino->largura = 60;  
+    dino->altura = 60;   
     dino->velocidadeY = 0;
     dino->pulando = 0;
     
@@ -765,6 +765,7 @@ int main(void) {
                         jogoAtivo = 0;
                         podeReiniciar = 0;
                         PlaySound(somColisao);
+                        PlaySound(somGameOver);
                         estadoAtual = GAME_OVER;
                         PlaySound(somGameOver);
 
