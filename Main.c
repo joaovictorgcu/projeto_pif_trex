@@ -498,17 +498,19 @@ int main(void) {
     int alturaTela = 450;
     int pontuacao = 0;
     int ultimaPontuacaoMudanca = 0;
+    int ultimoPontoComSom = -10;
     float tempoGlobal = 0.0f;
     EstadoJogo estadoAtual = MENU;
     int jogoRodando = 1;
 
-    Sound somGameOver = LoadSound("Sprites/GameOver.mp3");
-    SetSoundVolume(somGameOver, 0.6f);
-
     InitWindow(larguraTela, alturaTela, "Jogo Dino");
     InitAudioDevice();
+    Sound somGameOver = LoadSound("Sprites/GameOver.mp3");
+    SetSoundVolume(somGameOver, 0.8f);
+    Sound somPontuacao = LoadSound("Sprites/pontos.wav");
+    SetSoundVolume(somPontuacao, 0.8f); 
     Sound somPulo = LoadSound("Sprites/pulo.wav");
-    SetSoundVolume(somPulo, 0.6f);
+    SetSoundVolume(somPulo, 0.8f);
     Sound somColisao = LoadSound("Sprites/colisao.mp3");
     SetTargetFPS(60);
     srand(time(NULL));
@@ -756,7 +758,10 @@ int main(void) {
                         if (!atual->passou && atual->x + atual->largura < dino->x) {
                             pontuacao++;
                             atual->passou = 1;
-                            
+                            if (pontuacao % 10 == 0 && pontuacao != ultimoPontoComSom) {
+                                PlaySound(somPontuacao);
+                                ultimoPontoComSom = pontuacao;
+                            }
                         }
                         atual = atual->proximo;
                     }
@@ -852,6 +857,7 @@ int main(void) {
     UnloadSound(somPulo);
     UnloadSound(somColisao);
     UnloadSound(somGameOver);
+    UnloadSound(somPontuacao);
     CloseAudioDevice();
     free(dino);
     CloseWindow();
