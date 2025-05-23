@@ -3,6 +3,11 @@
 
 #include "raylib.h"
 
+// Matrizes usadas para desenhar os elementos do cenário
+extern Vector2 montanhas[2][3]; 
+extern Vector2 raiosSol[12][2];   
+extern Color linhasCeu[720];       
+
 // Desenha as montanhas no fundo
 void desenhar_montanhas(int largura, int altura);
 
