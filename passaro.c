@@ -1,7 +1,7 @@
 #include "passaro.h"
 #include <math.h>
 
-// Inicializa os pássaros com posições, velocidades e tamanhos aleatórios
+
 void inicializar_passaros(Passaro passaros[], int largura, int altura) {
     for (int i = 0; i < MAX_PASSAROS; i++) {
         passaros[i].posicao = (Vector2){GetRandomValue(0, largura), GetRandomValue(50, altura/3)};
@@ -11,7 +11,6 @@ void inicializar_passaros(Passaro passaros[], int largura, int altura) {
     }
 }
 
-// Atualiza a posição e animação dos pássaros
 void atualizar_passaros(Passaro passaros[], int largura) {
     for (int i = 0; i < MAX_PASSAROS; i++) {
         passaros[i].posicao.x += passaros[i].velocidade;
@@ -23,7 +22,6 @@ void atualizar_passaros(Passaro passaros[], int largura) {
     }
 }
 
-// Desenha um pássaro simples animado (asa batendo)
 void desenhar_passaro(Vector2 posicao, float tamanho, float tempo) {
     float asaOffset = sinf(tempo * 10) * 3 * tamanho;
     Color corPassaro = (Color){139, 69, 19, 255};

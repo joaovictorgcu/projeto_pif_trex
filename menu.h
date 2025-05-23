@@ -12,7 +12,6 @@ typedef struct opcaoMenu {
     int selecionada;
 } OpcaoMenu;
 
-// Apenas protótipos das funções!
 void desenhar_menu(OpcaoMenu opcoes[], int numOpcoes);
 void desenhar_tela_scores(ListaScores *lista, int largura, int altura);
 

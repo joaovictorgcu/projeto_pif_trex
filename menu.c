@@ -1,13 +1,17 @@
 #include "menu.h"
 #include <stdio.h>
 
+// desenha o menu principal
 void desenhar_menu(OpcaoMenu opcoes[], int numOpcoes) {
-    Color corFundo = (Color){135, 206, 235, 200};
-    Color corBorda = (Color){50, 50, 50, 255};
+    Color corFundo = (Color){135, 206, 235, 200}; 
+    Color corBorda = (Color){50, 50, 50, 255};   
 
+    // Ddesenha fundo do quadro do menu
     DrawRectangle(opcoes[0].area.x - 20, opcoes[0].area.y - 40,
         opcoes[0].area.width + 40, (opcoes[numOpcoes-1].area.y - opcoes[0].area.y) + opcoes[0].area.height + 60,
         corFundo);
+
+    // desenha borda menu
     DrawRectangleLinesEx((Rectangle){opcoes[0].area.x - 20, opcoes[0].area.y - 40,
         opcoes[0].area.width + 40, (opcoes[numOpcoes-1].area.y - opcoes[0].area.y) + opcoes[0].area.height + 60},
         2, corBorda);
@@ -15,10 +19,15 @@ void desenhar_menu(OpcaoMenu opcoes[], int numOpcoes) {
     Color corTitulo = (Color){50, 50, 50, 255};
     DrawText("TREX RUNNER", opcoes[0].area.x, opcoes[0].area.y - 30, 20, corTitulo);
 
+    // for p desenhar opções do menu
     for (int i = 0; i < numOpcoes; i++) {
+        
         Color corTexto = opcoes[i].selecionada ? opcoes[i].corSelecionada : opcoes[i].corNormal;
+
         DrawRectangleRec(opcoes[i].area, Fade(corTexto, 0.3f));
         DrawRectangleLinesEx(opcoes[i].area, 2, corTexto);
+
+        // centralizar o texto
         int textWidth = MeasureText(opcoes[i].texto, 20);
         int textX = opcoes[i].area.x + (opcoes[i].area.width - textWidth) / 2;
         int textY = opcoes[i].area.y + (opcoes[i].area.height - 20) / 2;
@@ -26,10 +35,12 @@ void desenhar_menu(OpcaoMenu opcoes[], int numOpcoes) {
     }
 }
 
+// desenhar tela com a lista de melhroes pontuacoes
 void desenhar_tela_scores(ListaScores *lista, int largura, int altura) {
-    Color corFundo = (Color){135, 206, 235, 200};
-    Color corBorda = (Color){50, 50, 50, 255};
-    Color corTexto = (Color){50, 50, 50, 255};
+    Color corFundo = (Color){135, 206, 235, 200}; 
+    Color corBorda = (Color){50, 50, 50, 255};   
+    Color corTexto = (Color){50, 50, 50, 255};    
+
 
     int larguraQuadro = 300;
     int alturaQuadro = 300;
@@ -39,9 +50,11 @@ void desenhar_tela_scores(ListaScores *lista, int largura, int altura) {
     DrawRectangle(xQuadro, yQuadro, larguraQuadro, alturaQuadro, corFundo);
     DrawRectangleLinesEx((Rectangle){xQuadro, yQuadro, larguraQuadro, alturaQuadro}, 2, corBorda);
 
+
     DrawText("MELHORES PONTUAÇÕES", xQuadro + 20, yQuadro + 20, 20, corTexto);
     DrawLine(xQuadro + 20, yQuadro + 50, xQuadro + larguraQuadro - 20, yQuadro + 50, corTexto);
 
+    // lista de pontuações
     Score *atual = lista->inicio;
     int y = yQuadro + 70;
     int posicao = 1;
@@ -58,5 +71,6 @@ void desenhar_tela_scores(ListaScores *lista, int largura, int altura) {
             posicao++;
         }
     }
+
     DrawText("Pressione ESC para voltar", xQuadro + 30, yQuadro + alturaQuadro - 40, 15, corTexto);
 }

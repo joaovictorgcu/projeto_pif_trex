@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Inicializa o dinossauro
 void inicializar_dinossauro(Dinossauro *dino, int x, int y, int largura, int altura, const char* caminhoSprite) {
     dino->x = x;
     dino->y = y;
@@ -13,12 +12,11 @@ void inicializar_dinossauro(Dinossauro *dino, int x, int y, int largura, int alt
     if (caminhoSprite && strlen(caminhoSprite) > 0) {
         dino->sprite = LoadTexture(caminhoSprite);
     } else {
-        dino->sprite.id = 0; // Usar desenho padrão
+        dino->sprite.id = 0;
     }
 }
 
-// Atualiza a física do dinossauro (pulo e gravidade)
-// pular: 1 se o jogador apertou o botão de pulo, 0 caso contrário
+// física do dinossauro (pulo e gravidade) - 1 se pular , 0 se contrario 
 void atualizar_dinossauro(Dinossauro *dino, float gravidade, float forcaPulo, int alturaTela, int pular) {
     if (pular && !dino->pulando) {
         dino->velocidadeY = forcaPulo;
@@ -33,7 +31,6 @@ void atualizar_dinossauro(Dinossauro *dino, float gravidade, float forcaPulo, in
     }
 }
 
-// Desenha o dinossauro na tela
 void desenhar_dinossauro(Dinossauro *dino) {
     if (dino->sprite.id == 0) {
         Color corBase = (Color){50, 50, 50, 255};

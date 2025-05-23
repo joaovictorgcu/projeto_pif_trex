@@ -12,13 +12,11 @@ typedef struct passaro {
     float tempoAnimacao;
 } Passaro;
 
-// Inicializa o array de pássaros
 void inicializar_passaros(Passaro passaros[], int largura, int altura);
 
-// Atualiza a posição e animação dos pássaros
 void atualizar_passaros(Passaro passaros[], int largura);
 
-// Desenha um pássaro na tela
+
 void desenhar_passaro(Vector2 posicao, float tamanho, float tempo);
 
 #endif

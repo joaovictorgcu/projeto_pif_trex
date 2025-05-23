@@ -1,6 +1,5 @@
 #include "nuvem.h"
 
-// Inicializa as nuvens com posições, escalas e velocidades aleatórias
 void inicializar_nuvens(Nuvem nuvens[], int largura, int altura) {
     for (int i = 0; i < MAX_NUVENS; i++) {
         nuvens[i].posicao = (Vector2){GetRandomValue(-100, largura), GetRandomValue(30, altura/3)};
@@ -10,7 +9,7 @@ void inicializar_nuvens(Nuvem nuvens[], int largura, int altura) {
     }
 }
 
-// Atualiza a posição das nuvens, fazendo elas "voltarem" ao sair da tela
+
 void atualizar_nuvens(Nuvem nuvens[], int largura) {
     for (int i = 0; i < MAX_NUVENS; i++) {
         nuvens[i].posicao.x += nuvens[i].velocidade;
@@ -20,8 +19,6 @@ void atualizar_nuvens(Nuvem nuvens[], int largura) {
         }
     }
 }
-
-// Desenha uma nuvem composta por vários círculos
 void desenhar_nuvem(Vector2 posicao, float escala, Color cor) {
     float raio = 20 * escala;
     DrawCircleV((Vector2){posicao.x + raio, posicao.y + raio}, raio, cor);

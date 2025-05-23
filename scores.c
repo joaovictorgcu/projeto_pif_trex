@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Insere um novo score na lista em ordem decrescente
 void inserir_score(ListaScores *lista, int pontos) {
     Score *novo = (Score*)malloc(sizeof(Score));
     novo->pontos = pontos;
@@ -23,7 +22,7 @@ void inserir_score(ListaScores *lista, int pontos) {
     }
     lista->tamanho++;
 
-    // Mantém apenas os MAX_SCORES
+    // deixa apenas os MAX_SCORES
     if (lista->tamanho > MAX_SCORES) {
         Score *atual = lista->inicio;
         int contador = 1;
@@ -42,7 +41,6 @@ void inserir_score(ListaScores *lista, int pontos) {
     }
 }
 
-// Salva os scores no arquivo
 void salvar_scores(ListaScores *lista) {
     FILE *arquivo = fopen("Scores/scores.txt", "w");
     if (arquivo == NULL) return;
@@ -54,7 +52,6 @@ void salvar_scores(ListaScores *lista) {
     fclose(arquivo);
 }
 
-// Carrega os scores do arquivo
 void carregar_scores(ListaScores *lista) {
     FILE *arquivo = fopen("Scores/scores.txt", "r");
     if (arquivo == NULL) return;
@@ -65,7 +62,6 @@ void carregar_scores(ListaScores *lista) {
     fclose(arquivo);
 }
 
-// Libera toda a memória da lista de scores
 void liberar_scores(ListaScores *lista) {
     Score *atual = lista->inicio;
     while (atual != NULL) {

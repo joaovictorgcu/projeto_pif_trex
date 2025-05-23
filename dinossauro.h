@@ -11,7 +11,7 @@ typedef struct dinossauro {
     Texture2D sprite;
 } Dinossauro;
 
-// Funções do dinossauro
+
 void desenhar_dinossauro(Dinossauro *dino);
 void inicializar_dinossauro(Dinossauro *dino, int x, int y, int largura, int altura, const char* caminhoSprite);
 void atualizar_dinossauro(Dinossauro *dino, float gravidade, float forcaPulo, int alturaTela, int pular);

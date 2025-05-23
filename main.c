@@ -32,7 +32,6 @@ int main(void) {
     SetTargetFPS(60);
     srand(time(NULL));
 
-    // Sons
     Sound somGameOver = LoadSound("Sprites/Sons/GameOver.mp3");
     Sound somPontuacao = LoadSound("Sprites/Sons/pontos.wav");
     Sound somPulo = LoadSound("Sprites/Sons/pulo.wav");
@@ -40,14 +39,14 @@ int main(void) {
     SetSoundVolume(somPontuacao, 0.8f);
     SetSoundVolume(somPulo, 0.8f);
 
-    // Dificuldade
+
     Dificuldade dificuldadeAtual = FACIL;
 
-    // Scores
+
     ListaScores scores = {0, NULL};
     carregar_scores(&scores);
 
-    // Menu
+
     OpcaoMenu opcoesMenu[4];
     int opcaoSelecionada = 0;
     strcpy(opcoesMenu[0].texto, "Jogar");
@@ -74,17 +73,14 @@ int main(void) {
     opcoesMenu[3].corSelecionada = (Color){255, 255, 0, 255};
     opcoesMenu[3].selecionada = 0;
 
-    // Nuvens e pássaros
+
     Nuvem nuvens[MAX_NUVENS];
     inicializar_nuvens(nuvens, larguraTela, alturaTela);
     Passaro passaros[MAX_PASSAROS];
     inicializar_passaros(passaros, larguraTela, alturaTela);
-    
-    // Dinossauro
     Dinossauro dino;
     inicializar_dinossauro(&dino, 50, alturaTela - 60, 60, 60, "Sprites/Imagens/dino.png");
 
-    // Cactos
     ListaCactos cactos = {0, NULL};
     Texture2D spriteCacto = LoadTexture("Sprites/Imagens/cacto.png");
 
@@ -96,7 +92,7 @@ int main(void) {
         BeginDrawing();
         tempoGlobal += GetFrameTime();
 
-        // Cenário
+        // cenario
         desenhar_ceu_diurno(larguraTela, alturaTela, tempoGlobal);
         desenhar_sol((Vector2){larguraTela - 80, 80}, 40, tempoGlobal);
         atualizar_nuvens(nuvens, larguraTela);
@@ -108,7 +104,7 @@ int main(void) {
         desenhar_montanhas(larguraTela, alturaTela);
         desenhar_chao(larguraTela, alturaTela);
 
-        // Estados do jogo
+        // estados do jogo
         switch (estadoAtual) {
             case MENU:
                 if (IsKeyPressed(KEY_DOWN)) {
