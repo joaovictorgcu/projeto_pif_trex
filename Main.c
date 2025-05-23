@@ -26,6 +26,7 @@ int main(void) {
     int jogoRodando = 1;
 
     InitWindow(larguraTela, alturaTela, "Jogo Dino");
+    SetExitKey(KEY_NULL); // <-- ESC não fecha mais a janela!
     InitAudioDevice();
     SetTargetFPS(60);
     srand(time(NULL));
@@ -35,10 +36,9 @@ int main(void) {
     Sound somPontuacao = LoadSound("Sprites/pontos.wav");
     Sound somPulo = LoadSound("Sprites/pulo.wav");
     Sound somColisao = LoadSound("Sprites/colisao.mp3");
-    SetSoundVolume(somGameOver, 0.4f);
+    SetSoundVolume(somGameOver, 0.8f);
     SetSoundVolume(somPontuacao, 0.8f);
     SetSoundVolume(somPulo, 0.8f);
-    SetSoundVolume(somColisao, 0.4f);
 
     // Dificuldade
     Dificuldade dificuldadeAtual = FACIL;
@@ -160,6 +160,11 @@ int main(void) {
                 DrawText(textoPontuacao, 11, 11, 20, (Color){50,50,50,255});
                 DrawText(textoPontuacao, 10, 10, 20, (Color){240,240,100,255});
 
+                if (IsKeyPressed(KEY_ESCAPE)) {
+                    estadoAtual = MENU;
+                    break;
+                }
+
                 if (jogoAtivo) {
                     int pular = IsKeyPressed(KEY_SPACE);
                     atualizar_dinossauro(&dino, gravidade, forcaPulo, alturaTela, pular);
@@ -174,7 +179,6 @@ int main(void) {
                         inserir_cacto_final(&cactos, larguraTela, alturaTela - 20 - alturaCacto, larguraCacto, alturaCacto);
                         distanciaUltimoCacto = 0.0f;
                     }
-
                     Cacto *atual = cactos.inicio;
                     while (atual != NULL) {
                         if (!atual->passou && atual->x + atual->largura < dino.x) {
