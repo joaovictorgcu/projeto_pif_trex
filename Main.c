@@ -33,9 +33,9 @@ int main(void) {
     srand(time(NULL));
 
     // Sons
-    Sound somGameOver = LoadSound("Arquivos/Sons/GameOver.mp3");
-    Sound somPontuacao = LoadSound("Arquivos/Sons/pontos.wav");
-    Sound somPulo = LoadSound("Arquivos/Sons/pulo.wav");
+    Sound somGameOver = LoadSound("Sprites/Sons/GameOver.mp3");
+    Sound somPontuacao = LoadSound("Sprites/Sons/pontos.wav");
+    Sound somPulo = LoadSound("Sprites/Sons/pulo.wav");
     SetSoundVolume(somGameOver, 0.8f);
     SetSoundVolume(somPontuacao, 0.8f);
     SetSoundVolume(somPulo, 0.8f);
@@ -79,14 +79,14 @@ int main(void) {
     inicializar_nuvens(nuvens, larguraTela, alturaTela);
     Passaro passaros[MAX_PASSAROS];
     inicializar_passaros(passaros, larguraTela, alturaTela);
-
+    
     // Dinossauro
     Dinossauro dino;
-    inicializar_dinossauro(&dino, 50, alturaTela - 60, 60, 60, "Arquivos/Imagens/dino.png");
+    inicializar_dinossauro(&dino, 50, alturaTela - 60, 60, 60, "Sprites/Imagens/dino.png");
 
     // Cactos
     ListaCactos cactos = {0, NULL};
-    Texture2D spriteCacto = LoadTexture("Arquivos/Imagens/cacto.png");
+    Texture2D spriteCacto = LoadTexture("Sprites/Imagens/cacto.png");
 
     float gravidade = 0.6f, forcaPulo = -12.0f;
     float distanciaUltimoCacto = 300.0f, distanciaMinima = 250.0f;
