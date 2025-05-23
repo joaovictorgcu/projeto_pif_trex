@@ -1,11 +1,11 @@
 
-# T-Rex Runner 
+# 🦖 T-Rex Runner
 
-Projeto da cadeira de Programação Imperativa e Funcional
+Projeto desenvolvido para a cadeira de **Programação Imperativa e Funcional**, que consiste na implementação do clássico jogo **T-Rex Runner**, famoso por aparecer no navegador Google Chrome quando não há conexão com a internet.
 
-## 📚 Descrição do Projeto
+## 📚 Descrição
 
-Este projeto consiste na implementação do clássico jogo **T-Rex Runner**, popularmente conhecido por aparecer no navegador Google Chrome quando não há conexão com a internet. Desenvolvido como parte da disciplina **Programação Imperativa e Funcional**, o objetivo principal foi aplicar conceitos fundamentais da programação estruturada utilizando a linguagem **C**.
+O objetivo deste projeto é aplicar conceitos fundamentais da programação estruturada utilizando a linguagem **C**, além de práticas com desenvolvimento gráfico por meio da biblioteca **Raylib**.
 
 ## 👨‍💻 Autores
 
@@ -13,14 +13,26 @@ Este projeto consiste na implementação do clássico jogo **T-Rex Runner**, pop
 - Pablo José Pellegrino Cintra  
 - João Victor Guimarães Cacalcanti Uchoa  
 
-## 🚀 Como Rodar o Jogo T-Rex Runner
+---
+
+## 🚀 Como Rodar o Jogo
 
 ### ✅ Pré-requisitos
 
-Antes de rodar o jogo, é necessário ter instalado no seu sistema:
-
 - **Compilador C** (GCC recomendado)  
 - **Biblioteca Raylib** ([https://www.raylib.com/](https://www.raylib.com/))  
+- **Git** para clonar o repositório  
+
+---
+
+## 🔥 Passo inicial (para todos os sistemas)
+
+Clone o repositório:
+
+```bash
+git clone https://github.com/joaovictorgcu/projeto_pif_trex.git
+cd projeto_pif_trex
+```
 
 ---
 
@@ -34,28 +46,21 @@ sudo apt install build-essential gcc make
 sudo apt install libraylib-dev
 ```
 
-> Obs.: Se `libraylib-dev` não estiver disponível, instale manualmente seguindo as instruções no site oficial da Raylib.
+> ⚠️ Se `libraylib-dev` não estiver disponível, siga as instruções de instalação manual no site oficial da [Raylib](https://www.raylib.com/).
 
-2. **Clonar o repositório:**
-
-```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
-```
-
-3. **Compilar o jogo:**
+2. **Compilar o jogo:**
 
 ```bash
 make
 ```
 
-4. **Rodar o jogo:**
+3. **Rodar o jogo:**
 
 ```bash
 ./trex_runner
 ```
 
-5. **(Opcional) Limpar arquivos gerados:**
+4. **(Opcional) Limpar arquivos gerados:**
 
 ```bash
 make clean
@@ -92,24 +97,24 @@ make clean
 
 ---
 
-## 🪟 Instruções para Windows (via MSYS2 ou MinGW)
+## 🪟 Instruções para Windows (via MSYS2)
 
 1. **Instalar MSYS2:**  
-Baixe e instale em: [https://www.msys2.org/](https://www.msys2.org/)
+Baixe em: [https://www.msys2.org/](https://www.msys2.org/)
 
-2. **Abrir o terminal MSYS2 MinGW 64-bit.**
+2. **Abrir o terminal `MSYS2 MinGW 64-bit`.**
 
-3. **Instalar dependências:**
+3. **Atualizar o sistema e instalar dependências:**
 
 ```bash
 pacman -Syu
-pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-make mingw-w64-x86_64-raylib
+pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-make mingw-w64-x86_64-raylib git
 ```
 
-4. **Navegar até a pasta do projeto:**
+4. **Navegar até a pasta do projeto (exemplo abaixo, ajuste conforme seu caminho):**
 
 ```bash
-cd /c/Caminho/Para/Seu/Projeto
+cd /c/Caminho/Para/Seu/projeto_pif_trex
 ```
 
 5. **Compilar o jogo:**
@@ -134,17 +139,21 @@ make clean
 
 ## ⚠️ Erros Comuns e Soluções
 
-- **Erro `raylib not found`:**  
-Verifique se a biblioteca Raylib está corretamente instalada no seu sistema.
+- **`raylib not found`**  
+Verifique se a biblioteca Raylib está corretamente instalada e se o compilador está configurado para encontrá-la.
 
-- **Erro de permissões (`Permission denied`) ao rodar no Linux/macOS:**  
-Execute o comando abaixo para dar permissão de execução:
+- **`Permission denied` (Linux/macOS):**  
+Se não conseguir executar o jogo, dê permissão:
 
 ```bash
 chmod +x trex_runner
 ./trex_runner
 ```
 
+- **No Windows, erro de 'command not found' ao usar `make`:**  
+Certifique-se de estar no terminal correto: `MSYS2 MinGW 64-bit`, não use o `MSYS` padrão.
+
 ---
 
-## 🎮 Divirta-se jogando!
+## 🎮 Divirta-se jogando!  
+Se gostar, ⭐ deixe uma estrela no repositório!
