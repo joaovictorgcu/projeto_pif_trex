@@ -26,7 +26,7 @@ int main(void) {
     int jogoRodando = 1;
 
     InitWindow(larguraTela, alturaTela, "Jogo Dino");
-    SetExitKey(KEY_NULL); // <-- ESC não fecha mais a janela!
+    SetExitKey(KEY_NULL); 
     InitAudioDevice();
     SetTargetFPS(60);
     srand(time(NULL));
