@@ -36,9 +36,10 @@ int main(void) {
     Sound somPontuacao = LoadSound("Sprites/pontos.wav");
     Sound somPulo = LoadSound("Sprites/pulo.wav");
     Sound somColisao = LoadSound("Sprites/colisao.mp3");
-    SetSoundVolume(somGameOver, 0.8f);
+    SetSoundVolume(somGameOver, 0.4f);
     SetSoundVolume(somPontuacao, 0.8f);
     SetSoundVolume(somPulo, 0.8f);
+    SetSoundVolume(somColisao, 0.4f);
 
     // Dificuldade
     Dificuldade dificuldadeAtual = FACIL;
