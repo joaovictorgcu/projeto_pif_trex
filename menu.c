@@ -13,7 +13,7 @@ void desenhar_menu(OpcaoMenu opcoes[], int numOpcoes) {
         2, corBorda);
 
     Color corTitulo = (Color){50, 50, 50, 255};
-    DrawText("DINO RUNNER", opcoes[0].area.x, opcoes[0].area.y - 30, 20, corTitulo);
+    DrawText("TREX RUNNER", opcoes[0].area.x, opcoes[0].area.y - 30, 20, corTitulo);
 
     for (int i = 0; i < numOpcoes; i++) {
         Color corTexto = opcoes[i].selecionada ? opcoes[i].corSelecionada : opcoes[i].corNormal;

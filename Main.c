@@ -16,6 +16,7 @@
 
 typedef enum { MENU, JOGANDO, GAME_OVER, SCORES } EstadoJogo;
 typedef enum { FACIL, MEDIO, DIFICIL } Dificuldade;
+void inserir_cactos_aleatorios(ListaCactos *lista, float x, float y_base);
 
 int main(void) {
     int larguraTela = 800, alturaTela = 450;
@@ -25,17 +26,16 @@ int main(void) {
     EstadoJogo estadoAtual = MENU;
     int jogoRodando = 1;
 
-    InitWindow(larguraTela, alturaTela, "Jogo Dino");
+    InitWindow(larguraTela, alturaTela, "TREX RUNNER");
     SetExitKey(KEY_NULL); 
     InitAudioDevice();
     SetTargetFPS(60);
     srand(time(NULL));
 
     // Sons
-    Sound somGameOver = LoadSound("Sprites/GameOver.mp3");
-    Sound somPontuacao = LoadSound("Sprites/pontos.wav");
-    Sound somPulo = LoadSound("Sprites/pulo.wav");
-    Sound somColisao = LoadSound("Sprites/colisao.mp3");
+    Sound somGameOver = LoadSound("Arquivos/Sons/GameOver.wav");
+    Sound somPontuacao = LoadSound("Arquivos/Sons/pontos.wav");
+    Sound somPulo = LoadSound("Arquivos/Sons/pulo.wav");
     SetSoundVolume(somGameOver, 0.8f);
     SetSoundVolume(somPontuacao, 0.8f);
     SetSoundVolume(somPulo, 0.8f);
@@ -82,11 +82,11 @@ int main(void) {
 
     // Dinossauro
     Dinossauro dino;
-    inicializar_dinossauro(&dino, 50, alturaTela - 60, 60, 60, "Sprites/dino.png");
+    inicializar_dinossauro(&dino, 50, alturaTela - 60, 60, 60, "Arquivos/Imagens/dino.png");
 
     // Cactos
     ListaCactos cactos = {0, NULL};
-    Texture2D spriteCacto = LoadTexture("Sprites/cacto.png");
+    Texture2D spriteCacto = LoadTexture("Arquivos/Imagens/cacto.png");
 
     float gravidade = 0.6f, forcaPulo = -12.0f;
     float distanciaUltimoCacto = 300.0f, distanciaMinima = 250.0f;
@@ -174,11 +174,10 @@ int main(void) {
                     atualizar_cactos(&cactos, velocidadeObstaculo);
                     distanciaUltimoCacto += velocidadeObstaculo;
                     if (distanciaUltimoCacto >= distanciaMinima && GetRandomValue(0, 99) < 4) {
-                        float alturaCacto = GetRandomValue(30, 60);
-                        float larguraCacto = GetRandomValue(15, 25);
-                        inserir_cacto_final(&cactos, larguraTela, alturaTela - 20 - alturaCacto, larguraCacto, alturaCacto);
+                        inserir_cactos_aleatorios(&cactos, larguraTela, alturaTela - 20);
                         distanciaUltimoCacto = 0.0f;
                     }
+
                     Cacto *atual = cactos.inicio;
                     while (atual != NULL) {
                         if (!atual->passou && atual->x + atual->largura < dino.x) {
@@ -193,7 +192,6 @@ int main(void) {
                     }
                     if (verificar_colisao(&dino, &cactos)) {
                         jogoAtivo = 0;
-                        PlaySound(somColisao);
                         PlaySound(somGameOver);
                         estadoAtual = GAME_OVER;
                         inserir_score(&scores, pontuacao);
@@ -251,7 +249,6 @@ int main(void) {
     if (dino.sprite.id != 0) UnloadTexture(dino.sprite);
     if (spriteCacto.id != 0) UnloadTexture(spriteCacto);
     UnloadSound(somPulo);
-    UnloadSound(somColisao);
     UnloadSound(somGameOver);
     UnloadSound(somPontuacao);
     CloseAudioDevice();
