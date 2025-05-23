@@ -33,7 +33,7 @@ int main(void) {
     srand(time(NULL));
 
     // Sons
-    Sound somGameOver = LoadSound("Arquivos/Sons/GameOver.wav");
+    Sound somGameOver = LoadSound("Arquivos/Sons/GameOver.mp3");
     Sound somPontuacao = LoadSound("Arquivos/Sons/pontos.wav");
     Sound somPulo = LoadSound("Arquivos/Sons/pulo.wav");
     SetSoundVolume(somGameOver, 0.8f);
